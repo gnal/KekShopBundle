@@ -166,6 +166,17 @@ abstract class Order
         // ..
     }
 
+    public function hasItemForProduct($product)
+    {
+        foreach ($this->getItems() as $item) {
+            if ($item->getProduct()->getId() === $product->getId()) {
+                return $item;
+            }
+        }
+
+        return false;
+    }
+
     public function getShippingFullName()
     {
         return $this->getShippingFirstName().' '.$this->getShippingLastName();

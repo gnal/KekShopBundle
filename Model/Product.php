@@ -46,6 +46,15 @@ abstract class Product
 
     protected $imageFile;
 
+    public function getCurrentPrice()
+    {
+        if (1) {
+            return $this->price;
+        } else {
+            return $this->price;
+        }
+    }
+
     public function getUploadFields()
     {
         return ['image'];

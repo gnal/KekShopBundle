@@ -34,6 +34,7 @@ class ProductAdmin extends Admin
     {
         $builder
             // ->add('category')
+            ->add('published', 'checkbox')
             ->add('price', 'money', [
                 'currency' => false,
             ])
@@ -63,7 +64,6 @@ class ProductAdmin extends Admin
     public function buildTranslationForm(FormBuilder $builder)
     {
         $builder
-            ->add('published', 'checkbox')
             ->add('name')
             ->add('description', 'textarea', [
                 'attr' => [

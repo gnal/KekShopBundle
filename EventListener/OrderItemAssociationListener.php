@@ -41,17 +41,15 @@ class OrderItemAssociationListener
 
     private function MapProduct($meta)
     {
-        if (!$meta->hasAssociation('product')) {
+        if ($meta->hasAssociation('product')) {
             return;
         }
 
         $meta->mapManyToOne([
             'fieldName'    => 'product',
             'targetEntity' => $this->productClass,
-            'joinColumns' => [
-                [
-                    'onDelete' => 'SET NULL',
-                ],
+            'joinColumn' => [
+                'onDelete' => 'SET NULL',
             ],
         ]);
     }

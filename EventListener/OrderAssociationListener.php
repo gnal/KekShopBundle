@@ -53,6 +53,12 @@ class OrderAssociationListener
             'fieldName'    => 'items',
             'targetEntity' => $this->orderItemClass,
             'joinTable' => [
+                'joinColumns' => [
+                    'JoinColumn' => [
+                        'onDelete' => 'CASCADE',
+                        'referencedColumnName' => 'id',
+                    ],
+                ],
                 'inverseJoinColumns' => [
                     'JoinColumn' => [
                         'unique' => true,
@@ -60,12 +66,13 @@ class OrderAssociationListener
                     ],
                 ],
             ],
+            'cascade' => ['persist'],
         ]);
     }
 
     private function MapUser($meta)
     {
-        if (!$meta->hasAssociation('user')) {
+        if ($meta->hasAssociation('user')) {
             return;
         }
 
@@ -73,10 +80,8 @@ class OrderAssociationListener
             'fieldName'    => 'user',
             'targetEntity' => $this->userClass,
             'inversedBy' => 'orders',
-            'joinColumns' => [
-                [
-                    'onDelete' => 'SET NULL',
-                ],
+            'joinColumn' => [
+                'onDelete' => 'SET NULL',
             ],
         ]);
     }
