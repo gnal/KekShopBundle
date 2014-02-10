@@ -79,7 +79,7 @@ class OrderAssociationListener
         $meta->mapManyToOne([
             'fieldName'    => 'user',
             'targetEntity' => $this->userClass,
-            'inversedBy' => 'orders',
+            // 'inversedBy' => 'orders',
             'joinColumn' => [
                 'onDelete' => 'SET NULL',
             ],
