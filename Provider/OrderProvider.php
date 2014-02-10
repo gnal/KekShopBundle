@@ -26,7 +26,13 @@ class OrderProvider
     public function getCurrentOrder($throwNotFound = true)
     {
         $orderClass = $this->container->getParameter('kek_shop.order.class');
-        $order = $this->container->get('doctrine')->getRepository($orderClass)->findCurrent($this->getUser(), $this->container->get('request'));
+        $repository = $this->container->get('doctrine')->getRepository($orderClass);
+
+        if ($this->getUser()) {
+            $order = $repository->findCurrentByUser($this->getUser());
+        } else {
+            $order = $repository->findCurrentById($this->container->get('request')->cookies->get('msci'));
+        }
 
         if ($throwNotFound && !$order) {
             throw new NotFoundHttpException();

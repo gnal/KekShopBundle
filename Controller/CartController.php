@@ -15,9 +15,9 @@ class CartController extends Controller
      */
     public function showAction()
     {
-        $parameters['order'] = $this->get('kek_shop.order_provider')->getCurrentOrder();
+        $order = $this->get('kek_shop.order_provider')->getCurrentOrder();
 
-        return $parameters;
+        return ['order' => $order];
     }
 
     /**
@@ -42,7 +42,7 @@ class CartController extends Controller
             }
         }
 
-        $product = $this->getRepository($productClass)->findOneBy(
+        $product = $this->getDoctrine()->getRepository($productClass)->findOneBy(
             [
                 'id' => $this->getRequest()->request->get('product'),
                 'published' => true,
@@ -83,25 +83,12 @@ class CartController extends Controller
     {
         $order = $this->get('kek_shop.order_provider')->getCurrentOrder();
 
-        if (!$order) {
-            throw $this->createNotFoundException();
-        }
+        $order->removeItemById($this->getRequest()->attributes->get('item'));
 
-        foreach ($order->getItems() as $key => $item) {
-            if ($item->getId() === intval($this->getRequest()->attributes->get('item'))) {
-                $order->getItems()->remove($key);
-                $om = $this->getDoctrine()->getManager();
-                $om->persist($order);
-                $om->flush();
-                break;
-            }
-        }
+        $om = $this->getDoctrine()->getManager();
+        $om->persist($order);
+        $om->flush();
 
         return $this->redirect($this->generateUrl('kek_shop_cart_show'));
-    }
-
-    private function getRepository($class)
-    {
-        return $this->getDoctrine()->getRepository($class);
     }
 }

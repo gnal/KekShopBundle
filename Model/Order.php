@@ -161,11 +161,6 @@ abstract class Order
         $this->status = 1;
     }
 
-    public function hasBothAdresses()
-    {
-        // ..
-    }
-
     public function hasItemForProduct($product)
     {
         foreach ($this->getItems() as $item) {
@@ -175,6 +170,16 @@ abstract class Order
         }
 
         return false;
+    }
+
+    public function removeItemById($id)
+    {
+        foreach ($this->getItems() as $key => $item) {
+            if ($item->getId() === intval($id)) {
+                $this->getItems()->remove($key);
+                break;
+            }
+        }
     }
 
     public function getShippingFullName()

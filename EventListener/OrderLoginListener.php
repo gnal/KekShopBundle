@@ -46,8 +46,9 @@ class OrderLoginListener
         $request = $event->getRequest();
         $repository = $this->om->getRepository($this->class);
 
+        // no need to do this if user has no cookie
         if ($request->cookies->has('msci')) {
-            $order = $repository->findCurrentByCookie($request->cookies->get('msci'));
+            $order = $repository->findCurrentById($request->cookies->get('msci'));
             if ($order) {
                 // if the user already had a order but made a new one while not logged, we delete his old one
                 $old = $repository->findCurrentByUser($this->user);
@@ -56,8 +57,8 @@ class OrderLoginListener
                 }
 
                 $order->setUser($this->user);
-                $this->om->persist($order);
 
+                $this->om->persist($order);
                 $this->om->flush();
             }
             $event->getResponse()->headers->clearCookie('msci');
