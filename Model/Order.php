@@ -182,6 +182,15 @@ abstract class Order
         }
     }
 
+    public function getItemById($id)
+    {
+        foreach ($this->getItems() as $key => $item) {
+            if ($item->getId() === intval($id)) {
+                return $item;
+            }
+        }
+    }
+
     public function getShippingFullName()
     {
         return $this->getShippingFirstName().' '.$this->getShippingLastName();

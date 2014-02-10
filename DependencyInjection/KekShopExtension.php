@@ -33,5 +33,8 @@ class KekShopExtension extends Extension
         $container->setParameter('kek_shop.product.class', $config['product_class']);
         $container->setParameter('kek_shop.order.class', $config['order_class']);
         $container->setParameter('kek_shop.order_item.class', $config['order_item_class']);
+
+        $container->setParameter('kek_shop.quantity_min', $config['quantity_min']);
+        $container->setParameter('kek_shop.quantity_max', $config['quantity_max']);
     }
 }

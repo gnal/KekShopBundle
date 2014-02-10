@@ -34,6 +34,14 @@ class Configuration implements ConfigurationInterface
                     ->cannotBeEmpty()
                     ->isRequired()
                 ->end()
+                ->scalarNode('quantity_min')
+                    ->cannotBeEmpty()
+                    ->defaultValue(1)
+                ->end()
+                ->scalarNode('quantity_max')
+                    ->cannotBeEmpty()
+                    ->defaultValue(999)
+                ->end()
             ->end()
         ;
 

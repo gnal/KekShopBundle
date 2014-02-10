@@ -26,7 +26,6 @@ class ProductAdmin extends Admin
             ->add('name')
             // ->add('category')
             ->add('price')
-            ->add('', 'action')
         ;
     }
 
