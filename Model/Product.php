@@ -46,6 +46,11 @@ abstract class Product
 
     protected $imageFile;
 
+    public function __construct()
+    {
+        $this->taxable = true;
+    }
+
     public function getCurrentPrice()
     {
         if (1) {
