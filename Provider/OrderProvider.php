@@ -23,7 +23,7 @@ class OrderProvider
         $this->container = $container;
     }
 
-    public function getCurrentOrder($throwNotFound = true)
+    public function getCurrentOrder($throwNotFound = false)
     {
         $orderClass = $this->container->getParameter('kek_shop.order.class');
         $repository = $this->container->get('doctrine')->getRepository($orderClass);

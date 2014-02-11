@@ -5,7 +5,7 @@ namespace Kek\ShopBundle\EventListener;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\Cookie;
 
-class CookieListener
+class OrderCookieListener
 {
     private $order;
 

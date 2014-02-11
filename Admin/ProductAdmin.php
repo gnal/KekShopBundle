@@ -5,7 +5,6 @@ namespace Kek\ShopBundle\Admin;
 use Msi\AdminBundle\Admin\Admin;
 use Msi\AdminBundle\Grid\GridBuilder;
 use Symfony\Component\Form\FormBuilder;
-use Doctrine\ORM\QueryBuilder;
 
 class ProductAdmin extends Admin
 {
@@ -24,7 +23,6 @@ class ProductAdmin extends Admin
         $builder
             ->add('published', 'boolean')
             ->add('name')
-            // ->add('category')
             ->add('price')
         ;
     }
@@ -32,8 +30,8 @@ class ProductAdmin extends Admin
     public function buildForm(FormBuilder $builder)
     {
         $builder
-            // ->add('category')
             ->add('published', 'checkbox')
+            ->add('categories')
             ->add('price', 'money', [
                 'currency' => false,
             ])
@@ -70,13 +68,5 @@ class ProductAdmin extends Admin
                 ],
             ])
         ;
-    }
-
-    public function buildListQuery(QueryBuilder $qb)
-    {
-        // $qb->leftJoin('a.category', 'c');
-        // $qb->addSelect('c');
-        // $qb->leftJoin('c.translations', 'ct');
-        // $qb->addSelect('ct');
     }
 }

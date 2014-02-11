@@ -3,15 +3,16 @@
 namespace Kek\ShopBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Symfony\Component\Validator\Constraints;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Kek\ShopBundle\EventListener\OrderCookieListener;
 
 class ProductController extends Controller
 {
+    // you should override this with your own implementation
     /**
-     * @Route("/product")
      * @Template()
      */
     public function indexAction()
@@ -19,6 +20,10 @@ class ProductController extends Controller
         $class = $this->container->getParameter('kek_shop.product.class');
         $repository = $this->getDoctrine()->getRepository($class);
         $products = $repository->findAll();
+
+        $class = $this->container->getParameter('kek_shop.product_category.class');
+        $repository = $this->getDoctrine()->getRepository($class);
+        $categories = $repository->findAll();
 
         // build a form for each product
         $forms = [];
@@ -57,17 +62,18 @@ class ProductController extends Controller
         return [
             'forms' => $forms,
             'products' => $products,
+            'categories' => $categories,
         ];
     }
 
-    private function addItem($productId, $quantity)
+    protected function addItem($productId, $quantity)
     {
         $orderClass = $this->container->getParameter('kek_shop.order.class');
         $orderItemClass = $this->container->getParameter('kek_shop.order_item.class');
         $productClass = $this->container->getParameter('kek_shop.product.class');
         $cookie = false;
 
-        $order = $this->get('kek_shop.order_provider')->getCurrentOrder(false);
+        $order = $this->get('kek_shop.order_provider')->getCurrentOrder();
         if (!$order) {
             $order = new $orderClass;
             $this->getDoctrine()->getManager()->persist($order);
@@ -101,7 +107,7 @@ class ProductController extends Controller
         }
 
         if ($cookie) {
-            $this->get('event_dispatcher')->addListener(KernelEvents::RESPONSE, [new CookieListener($order), 'onKernelResponse']);
+            $this->get('event_dispatcher')->addListener(KernelEvents::RESPONSE, [new OrderCookieListener($order), 'onKernelResponse']);
         }
     }
 }

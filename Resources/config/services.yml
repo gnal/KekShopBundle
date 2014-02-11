@@ -1,14 +1,26 @@
 services:
+    # Product
+    kek_shop_product_admin:
+        class: %kek_shop.product_admin.class%
+        arguments: [ @kek_shop.product_manager ]
+        parent: msi_admin.admin
+        tags:
+            - { name: msi.admin }
 
-        # Product
-        kek_shop_product_admin:
-            class: Kek\ShopBundle\Admin\ProductAdmin
-            arguments: [ @kek_shop.product_manager ]
-            parent: msi_admin.admin
-            tags:
-                - { name: msi.admin }
+    kek_shop.product_manager:
+        class: %msi_admin.manager.class%
+        arguments: [ %kek_shop.product.class% ]
+        parent: msi_admin.manager
 
-        kek_shop.product_manager:
-            class: %msi_admin.manager.class%
-            arguments: [ %kek_shop.product.class% ]
-            parent: msi_admin.manager
+    # ProductCategory
+    kek_shop_product_category_admin:
+        class: Kek\ShopBundle\Admin\ProductCategoryAdmin
+        arguments: [ @kek_shop.product_category_manager ]
+        parent: msi_admin.admin
+        tags:
+            - { name: msi.admin }
+
+    kek_shop.product_category_manager:
+        class: %msi_admin.manager.class%
+        arguments: [ %kek_shop.product_category.class% ]
+        parent: msi_admin.manager

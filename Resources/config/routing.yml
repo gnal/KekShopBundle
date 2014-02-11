@@ -1,0 +1,11 @@
+kek_shop_product_index:
+    pattern: /product
+    defaults: { _controller: KekShopBundle:Product:index }
+
+kek_shop_cart_show:
+    pattern: /cart
+    defaults: { _controller: KekShopBundle:Cart:show }
+
+kek_shop_cart_remove:
+    pattern: /cart/{item}/remove
+    defaults: { _controller: KekShopBundle:Cart:remove }
