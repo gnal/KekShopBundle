@@ -85,7 +85,7 @@ abstract class Product
     public function setImageFile($imageFile)
     {
         $this->imageFile = $imageFile;
-        $this->updateAt = new \DateTime;
+        $this->updatedAt = new \DateTime;
 
         return $this;
     }

@@ -11,23 +11,20 @@ use JMS\DiExtraBundle\Annotation as DI;
  * @DI\Service
  * @DI\Tag("doctrine.event_listener", attributes = {"event" = Events::loadClassMetadata})
  */
-class OrderAssociationListener
+class UserAssociationListener
 {
-    private $orderClass;
-    private $orderItemClass;
+    private $addressClass;
     private $userClass;
 
     /**
      * @DI\InjectParams({
-     *     "orderClass" = @DI\Inject("%kek_shop.order.class%"),
-     *     "orderItemClass" = @DI\Inject("%kek_shop.order_item.class%"),
+     *     "addressClass" = @DI\Inject("%kek_shop.address.class%"),
      *     "userClass" = @DI\Inject("%fos_user.model.user.class%")
      * })
      */
-    public function __construct($orderClass, $orderItemClass, $userClass)
+    public function __construct($addressClass, $userClass)
     {
-        $this->orderClass = $orderClass;
-        $this->orderItemClass = $orderItemClass;
+        $this->addressClass = $addressClass;
         $this->userClass = $userClass;
     }
 
@@ -35,23 +32,22 @@ class OrderAssociationListener
     {
         $meta = $event->getClassMetadata();
 
-        if ($meta->name !== $this->orderClass) {
+        if ($meta->name !== $this->userClass) {
             return;
         }
 
-        $this->mapItems($meta);
-        $this->mapUser($meta);
+        $this->mapAddresses($meta);
     }
 
-    private function mapItems($meta)
+    private function mapAddresses($meta)
     {
-        if ($meta->hasAssociation('items')) {
+        if ($meta->hasAssociation('addresses')) {
             return;
         }
 
         $meta->mapManyToMany([
-            'fieldName'    => 'items',
-            'targetEntity' => $this->orderItemClass,
+            'fieldName'    => 'addresses',
+            'targetEntity' => $this->addressClass,
             'joinTable' => [
                 // 'joinColumns' => [
                 //     'JoinColumn' => [
@@ -67,22 +63,6 @@ class OrderAssociationListener
                 ],
             ],
             'cascade' => ['persist', 'remove'],
-        ]);
-    }
-
-    private function MapUser($meta)
-    {
-        if ($meta->hasAssociation('user')) {
-            return;
-        }
-
-        $meta->mapManyToOne([
-            'fieldName'    => 'user',
-            'targetEntity' => $this->userClass,
-            // 'inversedBy' => 'orders',
-            'joinColumn' => [
-                'onDelete' => 'SET NULL',
-            ],
         ]);
     }
 }

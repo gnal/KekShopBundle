@@ -9,3 +9,19 @@ kek_shop_cart_show:
 kek_shop_cart_remove:
     pattern: /cart/{item}/remove
     defaults: { _controller: KekShopBundle:Cart:remove }
+
+kek_shop_address_index:
+    pattern: /account/address
+    defaults: { _controller: KekShopBundle:Address:index }
+
+kek_shop_address_new:
+    pattern: /account/address/new
+    defaults: { _controller: KekShopBundle:Address:new }
+
+kek_shop_address_edit:
+    pattern: /account/address/{address}/edit
+    defaults: { _controller: KekShopBundle:Address:edit }
+
+kek_shop_address_delete:
+    pattern: /account/address/{address}/delete
+    defaults: { _controller: KekShopBundle:Address:delete }
