@@ -65,7 +65,9 @@ class CartController extends Controller
     {
         $order = $this->get('kek_shop.order_provider')->getCurrentOrder();
 
-        return new Response($order->getItems()->count());
+        $count = $order ? $order->getItems()->count() : null;
+
+        return new Response($count);
     }
 
     public function removeAction()

@@ -33,8 +33,8 @@ class Calculator
     public function calculateOrderTotalWithTaxes(Order $order, $taxes)
     {
         $totalTaxes = $this->calculateTotalTaxes($order, $taxes);
-        $total = $order->getItemsTotal();
+        $orderTotal = $order->getItemsTotal();
 
-        return $totalTaxes + $total;
+        return $totalTaxes + $orderTotal;
     }
 }
