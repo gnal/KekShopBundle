@@ -4,6 +4,7 @@ namespace Kek\ShopBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\Validator\Constraints;
 
@@ -47,10 +48,24 @@ class CartController extends Controller
             }
         }
 
+        $repository = $this->getDoctrine()->getRepository('KekShopBundle:Tax');
+        $taxes = $repository->findBy([
+            'published' => true,
+        ]);
+
         return [
             'order' => $order,
             'forms' => $forms,
+            'taxes' => $taxes,
+            'calculator' => $this->get('kek_shop.calculator'),
         ];
+    }
+
+    public function countAction()
+    {
+        $order = $this->get('kek_shop.order_provider')->getCurrentOrder();
+
+        return new Response($order->getItems()->count());
     }
 
     public function removeAction()

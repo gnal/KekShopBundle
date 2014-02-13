@@ -163,7 +163,7 @@ abstract class Order
 
     public function hasItemForProduct($product)
     {
-        foreach ($this->getItems() as $item) {
+        foreach ($this->items as $item) {
             if ($item->getProduct()->getId() === $product->getId()) {
                 return $item;
             }
@@ -174,9 +174,9 @@ abstract class Order
 
     public function removeItemById($id)
     {
-        foreach ($this->getItems() as $key => $item) {
+        foreach ($this->items as $key => $item) {
             if ($item->getId() === intval($id)) {
-                $this->getItems()->remove($key);
+                $this->items->remove($key);
                 break;
             }
         }
@@ -184,11 +184,45 @@ abstract class Order
 
     public function getItemById($id)
     {
-        foreach ($this->getItems() as $key => $item) {
+        foreach ($this->items as $key => $item) {
             if ($item->getId() === intval($id)) {
                 return $item;
             }
         }
+    }
+
+    public function getItemsTotal()
+    {
+        $total = 0;
+        foreach ($this->items as $item) {
+            $total += $item->getTotal();
+        }
+
+        return $total;
+    }
+
+    public function getNonTaxableItemsTotal()
+    {
+        $total = 0;
+        foreach ($this->items as $item) {
+            if (!$item->getProduct()->getTaxable()) {
+                $total += $item->getTotal();
+            }
+        }
+
+        return $total;
+    }
+
+    public function getTaxableItemsTotal()
+    {
+        $total = 0;
+        foreach ($this->items as $item) {
+            if ($item->getProduct()->getTaxable()) {
+                $total += $item->getTotal();
+            }
+        }
+
+        return $total;
     }
 
     public function getShippingFullName()

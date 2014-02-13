@@ -37,3 +37,16 @@ services:
         class: %msi_admin.manager.class%
         arguments: [ %kek_shop.order.class% ]
         parent: msi_admin.manager
+
+    # Tax
+    kek_shop_tax_admin:
+        class: Kek\ShopBundle\Admin\TaxAdmin
+        arguments: [ @kek_shop.tax_manager ]
+        parent: msi_admin.admin
+        tags:
+            - { name: msi.admin }
+
+    kek_shop.tax_manager:
+        class: %msi_admin.manager.class%
+        arguments: [ Kek\ShopBundle\Entity\Tax ]
+        parent: msi_admin.manager

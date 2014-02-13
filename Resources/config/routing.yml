@@ -10,6 +10,10 @@ kek_shop_cart_show:
     pattern: /cart
     defaults: { _controller: KekShopBundle:Cart:show }
 
+kek_shop_cart_count:
+    pattern: /cart/count
+    defaults: { _controller: KekShopBundle:Cart:count }
+
 kek_shop_cart_remove:
     pattern: /cart/{item}/remove
     defaults: { _controller: KekShopBundle:Cart:remove }
