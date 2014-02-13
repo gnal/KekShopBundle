@@ -21,13 +21,14 @@ class OrderItem
 
     protected $product;
 
-    protected $lastQuantity;
+    // protected $lastQuantity;
 
     public function getTotal()
     {
-        $quantity = $this->lastQuantity ?: $this->quantity;
+        // not sure why this was necessary hehehe
+        // $quantity = $this->lastQuantity ?: $this->quantity;
 
-        return $quantity * $this->product->getCurrentPrice();
+        return $this->quantity * $this->product->getCurrentPrice();
     }
 
     public function getLastQuantity()
@@ -42,7 +43,15 @@ class OrderItem
 
     public function setQuantity($quantity)
     {
-        $this->lastQuantity = $this->quantity;
+        if ($quantity < 1) {
+            $quantity = 1;
+        }
+
+        if ($quantity > 999) {
+            $quantity = 999;
+        }
+
+        // $this->lastQuantity = $this->quantity;
 
         $this->quantity = $quantity;
 

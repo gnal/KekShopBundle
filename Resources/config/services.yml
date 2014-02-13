@@ -24,3 +24,16 @@ services:
         class: %msi_admin.manager.class%
         arguments: [ %kek_shop.product_category.class% ]
         parent: msi_admin.manager
+
+    # Order
+    kek_shop_order_admin:
+        class: Kek\ShopBundle\Admin\OrderAdmin
+        arguments: [ @kek_shop.order_manager ]
+        parent: msi_admin.admin
+        tags:
+            - { name: msi.admin }
+
+    kek_shop.order_manager:
+        class: %msi_admin.manager.class%
+        arguments: [ %kek_shop.order.class% ]
+        parent: msi_admin.manager

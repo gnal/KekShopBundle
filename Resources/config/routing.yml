@@ -1,6 +1,10 @@
+# Product
+
 kek_shop_product_index:
     pattern: /product
     defaults: { _controller: KekShopBundle:Product:index }
+
+# Cart
 
 kek_shop_cart_show:
     pattern: /cart
@@ -9,6 +13,8 @@ kek_shop_cart_show:
 kek_shop_cart_remove:
     pattern: /cart/{item}/remove
     defaults: { _controller: KekShopBundle:Cart:remove }
+
+# Address
 
 kek_shop_address_index:
     pattern: /account/address
@@ -25,3 +31,9 @@ kek_shop_address_edit:
 kek_shop_address_delete:
     pattern: /account/address/{address}/delete
     defaults: { _controller: KekShopBundle:Address:delete }
+
+# Order
+
+kek_shop_order_history:
+    pattern: /account/order
+    defaults: { _controller: KekShopBundle:Order:history }
