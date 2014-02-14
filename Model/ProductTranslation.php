@@ -4,6 +4,7 @@ namespace Kek\ShopBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\MappedSuperclass
@@ -14,12 +15,13 @@ abstract class ProductTranslation
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     protected $name;
 
     /**
      * @Gedmo\Slug(fields={"name"})
-     * @ORM\Column()
+     * @ORM\Column(type="string")
      */
     protected $slug;
 

@@ -12,6 +12,7 @@ class ProductAdmin extends Admin
     {
         $this->options = [
             'search_fields' => ['a.id', 'translations.name'],
+            'form_template' => 'KekShopBundle:Product/Admin:form.html.twig',
             'order_by' => [
                 'translations.name' => 'ASC',
             ],
@@ -44,7 +45,7 @@ class ProductAdmin extends Admin
                 'format' => 'dd-MM-yyyy',
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'datepicker',
+                    'class' => 'datepicker form-control',
                 ],
             ])
             ->add('discountedTo', 'date', [
@@ -52,7 +53,7 @@ class ProductAdmin extends Admin
                 'format' => 'dd-MM-yyyy',
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'datepicker',
+                    'class' => 'datepicker form-control',
                 ],
             ])
         ;

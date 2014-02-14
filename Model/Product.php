@@ -3,6 +3,7 @@
 namespace Kek\ShopBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\MappedSuperclass
@@ -16,6 +17,7 @@ abstract class Product
 
     /**
      * @ORM\Column(type="decimal", scale=2)
+     * @Assert\NotBlank()
      */
     protected $price;
 

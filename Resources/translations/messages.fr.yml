@@ -1,6 +1,12 @@
-Isdefaultbilling: Default Billing Address
-Isdefaultshipping: Default Shipping Address
+Isdefaultbilling: Adresse de facturation par defaut
+Isdefaultshipping: Adresse de livraison par defaut
 Phoneext: Ext.
-Firstname: First name
-Lastname: Last name
+Firstname: Prenom
+Lastname: Nom
 Zip: Postal code
+
+Discountedprice: Prix en rabais
+Discountedfrom: En rabais a partir du
+Discountedto: En rabais jusqu'au
+Price: Prix
+Taxable: Taxable
