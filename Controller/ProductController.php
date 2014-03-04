@@ -11,7 +11,7 @@ use Kek\ShopBundle\EventListener\OrderCookieListener;
 
 class ProductController extends Controller
 {
-    // you should override this with your own implementation
+    // you should override this with your own implementation, or not
     /**
      * @Template()
      */

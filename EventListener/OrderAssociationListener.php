@@ -4,7 +4,6 @@ namespace Kek\ShopBundle\EventListener;
 
 use Doctrine\Common\EventArgs;
 use Doctrine\ORM\Events;
-
 use JMS\DiExtraBundle\Annotation as DI;
 
 /**

@@ -11,7 +11,7 @@ use JMS\DiExtraBundle\Annotation as DI;
  * @DI\Service
  * @DI\Tag("doctrine.event_listener", attributes = {"event" = Events::loadClassMetadata})
  */
-class UserAssociationListener
+class AddressAssociationListener
 {
     private $addressClass;
     private $userClass;
@@ -32,24 +32,26 @@ class UserAssociationListener
     {
         $meta = $event->getClassMetadata();
 
-        if ($meta->name !== $this->userClass) {
+        if ($meta->name !== $this->addressClass) {
             return;
         }
 
-        $this->mapAddresses($meta);
+        $this->mapUser($meta);
     }
 
-    private function mapAddresses($meta)
+    private function mapUser($meta)
     {
-        if ($meta->hasAssociation('addresses')) {
+        if ($meta->hasAssociation('user')) {
             return;
         }
 
-        $meta->mapOneToMany([
-            'fieldName'    => 'addresses',
-            'targetEntity' => $this->addressClass,
-            'mappedBy' => 'user',
-            'cascade' => ['persist', 'remove'],
+        $meta->mapManyToOne([
+            'fieldName'    => 'user',
+            'targetEntity' => $this->userClass,
+            'inversedBy' => 'addresses',
+            'joinColumn' => [
+                'onDelete' => 'CASCADE',
+            ],
         ]);
     }
 }

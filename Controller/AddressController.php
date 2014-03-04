@@ -4,7 +4,6 @@ namespace Kek\ShopBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
 use Symfony\Component\Validator\Constraints;
 
 class AddressController extends Controller
@@ -14,7 +13,13 @@ class AddressController extends Controller
      */
     public function indexAction()
     {
-        return [];
+        $addressTypes = $this->container->get('doctrine')->getRepository('KekShopBundle:AddressType')->findBy([
+            'published' => true,
+        ]);
+
+        return [
+            'address_types' => $addressTypes,
+        ];
     }
 
     /**
@@ -31,6 +36,7 @@ class AddressController extends Controller
             $form->bind($this->getRequest());
 
             if ($form->isValid()) {
+                $object->setUser($this->getUser());
                 $this->getUser()->getAddresses()->add($object);
                 $this->getDoctrine()->getManager()->flush();
 
@@ -113,12 +119,24 @@ class AddressController extends Controller
             ->add('country')
         ;
 
-        if (!$this->getUser()->getBillingAddress() || $object->getIsDefaultBilling()) {
-            $builder->add('isDefaultBilling');
+        // fix choices so it's impossible to select shipping for more than 1 address for example
+        $choices = $this->container->get('doctrine')->getRepository('KekShopBundle:AddressType')->findBy([
+            'published' => true,
+        ]);
+        foreach ($choices as $key => $type) {
+            if ($this->getUser()->getAddressByType($type) && !$object->getTypes()->contains($type)) {
+                unset($choices[$key]);
+            }
         }
 
-        if (!$this->getUser()->getShippingAddress() || $object->getIsDefaultShipping()) {
-            $builder->add('isDefaultShipping');
+        if ($choices) {
+            $builder->add('types', 'entity', [
+                'class' => 'KekShopBundle:AddressType',
+                'multiple' => true,
+                'expanded' => true,
+                'label' => 'address.types',
+                'choices' => $choices,
+            ]);
         }
 
         return $builder->getForm();

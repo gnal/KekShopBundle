@@ -4,12 +4,21 @@ namespace Kek\ShopBundle\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\MappedSuperclass
  */
 abstract class Address
 {
+    /**
+     * @ORM\ManyToMany(targetEntity="Kek\ShopBundle\Entity\AddressType")
+     * @ORM\JoinColumn(onDelete="CASCADE")
+     */
+    protected $types;
+
+    protected $user;
+
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
@@ -58,42 +67,31 @@ abstract class Address
      */
     protected $country;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $isDefaultBilling;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $isDefaultShipping;
-
     public function __construct()
     {
-        $this->isDefaultBilling = false;
-        $this->isDefaultShipping = false;
+        $this->types = new ArrayCollection;
     }
 
-    public function getIsDefaultBilling()
+    public function getUser()
     {
-        return $this->isDefaultBilling;
+        return $this->user;
     }
 
-    public function setIsDefaultBilling($isDefaultBilling)
+    public function setUser($user)
     {
-        $this->isDefaultBilling = $isDefaultBilling;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getIsDefaultShipping()
+    public function getTypes()
     {
-        return $this->isDefaultShipping;
+        return $this->types;
     }
 
-    public function setIsDefaultShipping($isDefaultShipping)
+    public function setTypes($types)
     {
-        $this->isDefaultShipping = $isDefaultShipping;
+        $this->types = $types;
 
         return $this;
     }
@@ -201,6 +199,8 @@ abstract class Address
 
     public function __toString()
     {
-        return (string) $this->id;
+        $label = $this->firstName.' '.$this->lastName.', '.$this->address.', '.$this->city.', '.$this->province.', '.$this->zip.', '.$this->country;
+
+        return (string) $label;
     }
 }

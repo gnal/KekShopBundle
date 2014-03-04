@@ -50,3 +50,29 @@ services:
         class: %msi_admin.manager.class%
         arguments: [ Kek\ShopBundle\Entity\Tax ]
         parent: msi_admin.manager
+
+    # AddressType
+    kek_shop_address_type_admin:
+        class: Kek\ShopBundle\Admin\AddressTypeAdmin
+        arguments: [ @kek_shop.address_type_manager ]
+        parent: msi_admin.admin
+        tags:
+            - { name: msi.admin }
+
+    kek_shop.address_type_manager:
+        class: %msi_admin.manager.class%
+        arguments: [ Kek\ShopBundle\Entity\AddressType ]
+        parent: msi_admin.manager
+
+    # Address
+    kek_shop_address_admin:
+        class: Kek\ShopBundle\Admin\AddressAdmin
+        arguments: [ @kek_shop.address_manager ]
+        parent: msi_admin.admin
+        tags:
+            - { name: msi.admin }
+
+    kek_shop.address_manager:
+        class: %msi_admin.manager.class%
+        arguments: [ %kek_shop.address.class% ]
+        parent: msi_admin.manager

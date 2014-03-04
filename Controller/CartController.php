@@ -5,8 +5,8 @@ namespace Kek\ShopBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
-
 use Symfony\Component\Validator\Constraints;
+use Kek\ShopBundle\Event\QuantityFormEvent;
 
 class CartController extends Controller
 {
@@ -21,21 +21,15 @@ class CartController extends Controller
         if ($order) {
             // build a form for each item
             foreach ($order->getItems() as $item) {
-                $builder = $this->createFormBuilder($item);
-                $builder
-                    ->add('quantity', 'text', [
-                        'constraints' => [new Constraints\Range([
-                            'min' => $this->container->getParameter('kek_shop.quantity_min'),
-                            'max' => $this->container->getParameter('kek_shop.quantity_max'),
-                        ])],
-                    ])
-                ;
-                $forms[$item->getId()] = $builder->getForm();
+                $class = $this->container->getParameter('kek_shop.quantity_form_type_class.class');
+                $type = new $class($item);
+                $forms[$item->getId()] = $this->createForm($type, $item);
             }
 
             if ($this->getRequest()->isMethod('POST')) {
                 $id = $this->getRequest()->query->get('item');
                 $forms[$id]->bind($this->getRequest());
+
                 if ($forms[$id]->isValid()) {
                     $this->getDoctrine()->getManager()->flush();
 

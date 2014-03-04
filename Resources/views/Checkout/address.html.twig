@@ -1,0 +1,72 @@
+{% extends 'KekShopBundle::layout.html.twig' %}
+
+{% block content %}
+<form novalidate method="POST" action="{{ path('kek_shop_checkout_address') }}">
+{% form_theme form 'MsiAdminBundle:Form:form.html.twig' %}
+<div class="row">
+    <div class="col-md-6">
+        {{ form_errors(form) }}
+
+        {% for address_type in address_types %}
+            <h3>{{ address_type|capitalize }} Address</h3>
+            <p>Select a {{ address_type }} address from your address book or enter a new address.</p>
+            <div class="form-group">
+                {{ form_widget(form[address_type~'AddressChoice']) }}
+            </div>
+            <fieldset class="hide">
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(form[address_type~'FirstName']) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form[address_type~'LastName']) }}
+                    </div>
+                </div>
+                {{ form_row(form[address_type~'Phone']) }}
+
+                {{ form_row(form[address_type~'Address']) }}
+                {{ form_row(form[address_type~'City']) }}
+                {{ form_row(form[address_type~'Province']) }}
+                {{ form_row(form[address_type~'Zip']) }}
+                {{ form_row(form[address_type~'Country']) }}
+                {% if app.user %}
+                    {{ form_row(form[address_type~'BillingAddressToAddressBook']) }}
+                {% endif %}
+            </fieldset>
+        {% endfor %}
+
+        {{ form_rest(form) }}
+        <button type=submit>SEND</button>
+    </div>
+</div>
+</form>
+{% endblock %}
+
+{% block js %}
+{{ parent() }}
+<script>
+(function($) {
+    "use strict";
+    var $addressChoices = $('.address-choice');
+
+    $addressChoices.each(function(i, e) {
+        hideAndShow(this);
+    });
+
+    $addressChoices.on('change', function() {
+        hideAndShow(this);
+    });
+
+    function hideAndShow(e)
+    {
+        var $e = $(e);
+
+        if ($e.val() === '0') {
+            $e.parent().next('fieldset').removeClass('hide');
+        } else {
+            $e.parent().next('fieldset').addClass('hide');
+        }
+    }
+})(jQuery);
+</script>
+{% endblock %}

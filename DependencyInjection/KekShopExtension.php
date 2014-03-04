@@ -38,6 +38,8 @@ class KekShopExtension extends Extension
 
         $container->setParameter('kek_shop.product_admin.class', $config['product_admin_class']);
 
+        $container->setParameter('kek_shop.quantity_form_type_class.class', $config['quantity_form_type_class']);
+
         $container->setParameter('kek_shop.quantity_min', $config['quantity_min']);
         $container->setParameter('kek_shop.quantity_max', $config['quantity_max']);
     }

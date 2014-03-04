@@ -1,6 +1,4 @@
-Isdefaultbilling: Adresse de facturation par defaut
-Isdefaultshipping: Adresse de livraison par defaut
-Phoneext: Ext.
+address.types: Utiliser cette adresse pour
 Firstname: Prenom
 Lastname: Nom
 Zip: Postal code

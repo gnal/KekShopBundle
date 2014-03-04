@@ -65,11 +65,6 @@ abstract class Order
     protected $shippingPhone;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    protected $shippingPhoneExt;
-
-    /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected $shippingAddress;
@@ -115,11 +110,6 @@ abstract class Order
      * @ORM\Column(type="string", nullable=true)
      */
     protected $billingPhone;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    protected $billingPhoneExt;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -355,18 +345,6 @@ abstract class Order
         return $this;
     }
 
-    public function getShippingPhoneExt()
-    {
-        return $this->shippingPhoneExt;
-    }
-
-    public function setShippingPhoneExt($shippingPhoneExt)
-    {
-        $this->shippingPhoneExt = $shippingPhoneExt;
-
-        return $this;
-    }
-
     public function getBillingFirstName()
     {
         return $this->billingFirstName;
@@ -411,18 +389,6 @@ abstract class Order
     public function setBillingPhone($billingPhone)
     {
         $this->billingPhone = $billingPhone;
-
-        return $this;
-    }
-
-    public function getBillingPhoneExt()
-    {
-        return $this->billingPhoneExt;
-    }
-
-    public function setBillingPhoneExt($billingPhoneExt)
-    {
-        $this->billingPhoneExt = $billingPhoneExt;
 
         return $this;
     }

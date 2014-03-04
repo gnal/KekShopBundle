@@ -41,3 +41,9 @@ kek_shop_address_delete:
 kek_shop_order_history:
     pattern: /account/order
     defaults: { _controller: KekShopBundle:Order:history }
+
+# Checkout
+
+kek_shop_checkout_address:
+    pattern: /checkout/address
+    defaults: { _controller: KekShopBundle:Checkout:address }
