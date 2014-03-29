@@ -42,99 +42,7 @@ abstract class Order
      */
     protected $total;
 
-    // shipping
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $shippingFirstName;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $shippingLastName;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $shippingEmail;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $shippingPhone;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $shippingAddress;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $shippingCity;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $shippingProvince;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $shippingCountry;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $shippingZip;
-
-    // billing
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $billingFirstName;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $billingLastName;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $billingEmail;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $billingPhone;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $billingAddress;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $billingCity;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $billingProvince;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $billingCountry;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $billingZip;
+    protected $addresses;
 
     protected $items;
 
@@ -148,6 +56,7 @@ abstract class Order
     public function __construct()
     {
         $this->items = new ArrayCollection;
+        $this->addresses = new ArrayCollection;
         $this->status = 1;
     }
 
@@ -233,6 +142,18 @@ abstract class Order
     public function setTotal($total)
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    public function getAddresses()
+    {
+        return $this->addresses;
+    }
+
+    public function setAddresses($addresses)
+    {
+        $this->addresses = $addresses;
 
         return $this;
     }

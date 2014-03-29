@@ -24,7 +24,8 @@ class CheckoutController extends Controller
         if ($this->getRequest()->isMethod('POST')) {
             $form->bind($this->getRequest());
             if ($form->isValid()) {
-                die('woot woot');
+                // die(var_dump($form->getData()));
+
             }
         }
 

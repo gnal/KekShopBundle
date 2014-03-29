@@ -78,10 +78,10 @@ class CheckoutAddressType extends AbstractType
     private function buildAddressChoiceField($builder, array $types)
     {
         $choices = [];
+        // try to get user's addresses
         if ($this->user) {
             foreach ($types as $type) {
-                $getter = 'get'.ucfirst($type).'Address';
-                if ($address = $this->user->$getter()) {
+                if ($address = $this->user->getAddressByType($type)) {
                     $choices[$address->getId()] = $address;
                 }
             }
@@ -91,22 +91,22 @@ class CheckoutAddressType extends AbstractType
             }
         }
 
+        // need a new address choice
         $choices[0] = 'New Address';
 
         $i = 0;
         foreach ($types as $type) {
             if ($i !== 0) {
-                $choices[$type] = 'Use '.ucfirst($type).' Address';
+                $choices[$type->getId()] = 'Use '.ucfirst($type).' Address';
             }
             $i++;
         }
 
-        // set default data
+        // set default data (in other word set the selected option)
         $data = null;
         if ($this->user) {
             foreach ($types as $type) {
-                $getter = 'get'.ucfirst($type).'Address';
-                if ($address = $this->user->$getter()) {
+                if ($address = $this->user->getAddressByType($type)) {
                     $data = $address->getId();
                     break;
                 }
