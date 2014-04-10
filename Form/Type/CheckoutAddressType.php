@@ -64,9 +64,9 @@ class CheckoutAddressType extends AbstractType
                 ])
             ;
 
-            if ($this->user) {
-                $builder->add('save'.ucfirst($label).'AddressToAddressBook', 'checkbox');
-            }
+            // if ($this->user) {
+            //     $builder->add('save'.ucfirst($label).'AddressToAddressBook', 'checkbox');
+            // }
         }
     }
 

@@ -31,9 +31,9 @@
                 {{ form_row(form[address_type~'Province']) }}
                 {{ form_row(form[address_type~'Zip']) }}
                 {{ form_row(form[address_type~'Country']) }}
-                {% if app.user %}
+                {#{% if app.user %}
                     {{ form_row(form['save'~address_type~'AddressToAddressBook']) }}
-                {% endif %}
+                {% endif %}#}
             </fieldset>
         {% endfor %}
 

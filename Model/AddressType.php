@@ -12,6 +12,7 @@ abstract class AddressType
     use \Msi\AdminBundle\Doctrine\Extension\Model\Translatable;
     use \Msi\AdminBundle\Doctrine\Extension\Model\Publishable;
     use \Msi\AdminBundle\Doctrine\Extension\Model\Timestampable;
+    use \Msi\AdminBundle\Doctrine\Extension\Model\Sortable;
 
     public function getId()
     {

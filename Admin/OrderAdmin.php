@@ -21,7 +21,7 @@ class OrderAdmin extends Admin
     public function buildGrid(GridBuilder $builder)
     {
         $builder
-            // ->add('name')
+            ->add('id')
             // ->add('price')
         ;
     }
