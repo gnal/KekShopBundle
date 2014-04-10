@@ -1,5 +1,7 @@
 {% extends 'KekShopBundle::layout.html.twig' %}
 
+{% block title %}Address Information{% endblock %}
+
 {% block content %}
 <form novalidate method="POST" action="{{ path('kek_shop_checkout_address') }}">
 {% form_theme form 'MsiAdminBundle:Form:form.html.twig' %}
@@ -36,7 +38,7 @@
         {% endfor %}
 
         {{ form_rest(form) }}
-        <button type=submit>SEND</button>
+        <button class="btn btn-primary" type=submit>Continuer</button>
     </div>
 </div>
 </form>

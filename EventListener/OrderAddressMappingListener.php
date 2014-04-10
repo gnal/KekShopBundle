@@ -11,21 +11,21 @@ use JMS\DiExtraBundle\Annotation as DI;
  * @DI\Service
  * @DI\Tag("doctrine.event_listener", attributes = {"event" = Events::loadClassMetadata})
  */
-class AddressAssociationListener
+class OrderAddressMappingListener
 {
     private $addressClass;
-    private $userClass;
+    private $orderClass;
 
     /**
      * @DI\InjectParams({
-     *     "addressClass" = @DI\Inject("%kek_shop.address.class%"),
-     *     "userClass" = @DI\Inject("%fos_user.model.user.class%")
+     *     "addressClass" = @DI\Inject("%kek_shop.order_address.class%"),
+     *     "orderClass" = @DI\Inject("%kek_shop.order.class%")
      * })
      */
-    public function __construct($addressClass, $userClass)
+    public function __construct($addressClass, $orderClass)
     {
         $this->addressClass = $addressClass;
-        $this->userClass = $userClass;
+        $this->orderClass = $orderClass;
     }
 
     public function loadClassMetadata(EventArgs $event)
@@ -46,8 +46,8 @@ class AddressAssociationListener
         }
 
         $meta->mapManyToOne([
-            'fieldName'    => 'user',
-            'targetEntity' => $this->userClass,
+            'fieldName'    => 'order',
+            'targetEntity' => $this->orderClass,
             'inversedBy' => 'addresses',
             'joinColumns' => [
                 [

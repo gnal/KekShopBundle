@@ -47,3 +47,7 @@ kek_shop_order_history:
 kek_shop_checkout_address:
     pattern: /checkout/address
     defaults: { _controller: KekShopBundle:Checkout:address }
+
+kek_shop_checkout_review:
+    pattern: /checkout/review
+    defaults: { _controller: KekShopBundle:Checkout:review }

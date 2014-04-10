@@ -33,6 +33,7 @@ class KekShopExtension extends Extension
         $container->setParameter('kek_shop.product.class', $config['product_class']);
         $container->setParameter('kek_shop.order.class', $config['order_class']);
         $container->setParameter('kek_shop.order_item.class', $config['order_item_class']);
+        $container->setParameter('kek_shop.order_address.class', $config['order_address_class']);
         $container->setParameter('kek_shop.product_category.class', $config['product_category_class']);
         $container->setParameter('kek_shop.address.class', $config['address_class']);
 

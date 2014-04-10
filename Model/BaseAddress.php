@@ -12,12 +12,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 abstract class BaseAddress
 {
     /**
-     * @ORM\ManyToMany(targetEntity="Kek\ShopBundle\Entity\AddressType")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
-    protected $types;
-
-    /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
      */
@@ -64,6 +58,11 @@ abstract class BaseAddress
      * @Assert\NotBlank()
      */
     protected $country;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Kek\ShopBundle\Entity\AddressType")
+     */
+    protected $types;
 
     public function __construct()
     {

@@ -14,19 +14,22 @@ class OrderAssociationListener
 {
     private $orderClass;
     private $orderItemClass;
+    private $orderAddressClass;
     private $userClass;
 
     /**
      * @DI\InjectParams({
      *     "orderClass" = @DI\Inject("%kek_shop.order.class%"),
      *     "orderItemClass" = @DI\Inject("%kek_shop.order_item.class%"),
+     *     "orderAddressClass" = @DI\Inject("%kek_shop.order_address.class%"),
      *     "userClass" = @DI\Inject("%fos_user.model.user.class%")
      * })
      */
-    public function __construct($orderClass, $orderItemClass, $userClass)
+    public function __construct($orderClass, $orderItemClass, $orderAddressClass, $userClass)
     {
         $this->orderClass = $orderClass;
         $this->orderItemClass = $orderItemClass;
+        $this->orderAddressClass = $orderAddressClass;
         $this->userClass = $userClass;
     }
 
@@ -40,6 +43,7 @@ class OrderAssociationListener
 
         $this->mapItems($meta);
         $this->mapUser($meta);
+        $this->mapAddresses($meta);
     }
 
     private function mapItems($meta)
@@ -65,6 +69,20 @@ class OrderAssociationListener
                     ],
                 ],
             ],
+            'cascade' => ['persist', 'remove'],
+        ]);
+    }
+
+    private function mapAddresses($meta)
+    {
+        if ($meta->hasAssociation('addresses')) {
+            return;
+        }
+
+        $meta->mapOneToMany([
+            'fieldName'    => 'addresses',
+            'targetEntity' => $this->orderAddressClass,
+            'mappedBy' => 'order',
             'cascade' => ['persist', 'remove'],
         ]);
     }
