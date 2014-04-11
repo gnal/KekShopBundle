@@ -12,19 +12,18 @@ use Kek\ShopBundle\Model\Tax;
  */
 class Calculator
 {
-    public function calculateTotalTax(Order $order, Tax $tax)
+    public function calculateTotalTax(Order $order, $taxRate)
     {
         $totalTaxable = $order->getTaxableItemsTotal();
-        $rate = $tax->getRate() / 100;
 
-        return $totalTaxable * $rate;
+        return $totalTaxable * ($taxRate / 100);
     }
 
-    public function calculateTotalTaxes(Order $order, $taxes)
+    public function calculateTotalTaxes(Order $order, $taxRates)
     {
         $total = 0;
-        foreach ($taxes as $tax) {
-            $total += $this->calculateTotalTax($order, $tax);
+        foreach ($taxRates as $taxRate) {
+            $total += $this->calculateTotalTax($order, $taxRate);
         }
 
         return $total;
@@ -32,7 +31,16 @@ class Calculator
 
     public function calculateOrderTotalWithTaxes(Order $order, $taxes)
     {
-        $totalTaxes = $this->calculateTotalTaxes($order, $taxes);
+        $taxRates = [];
+        foreach ($taxes as $tax) {
+            if (is_object($tax)) {
+                $taxRates[] = $tax->getRate();
+            } else {
+                $taxRates[] = $tax['rate'];
+            }
+        }
+
+        $totalTaxes = $this->calculateTotalTaxes($order, $taxRates);
         $orderTotal = $order->getItemsTotal();
 
         return $totalTaxes + $orderTotal;

@@ -1,3 +1,4 @@
 q: why addresstype and why in database?
 a: different kind of ecommerce require different addresses (shipping, billing, registrant, etc), and we put it in database so the user can choosin if they want to ship exclusively at the billing address (less chargebacks) or allow shipping to shippng address (more customer)
 
+pour tester la meilleure facon de denormaliser un nombre de donnees inconnu, pour les addresses on essaie avec des tables et pour ltes taxes on essaies avec un array

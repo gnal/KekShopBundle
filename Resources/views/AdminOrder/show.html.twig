@@ -1,0 +1,83 @@
+{% extends 'MsiAdminBundle::layout.html.twig' %}
+
+{% block title %}{{ order.id }}{% endblock title %}
+
+{% block content %}
+<div class="panel panel-default">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th class="text-center">Unit Price</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items %}
+                    <tr id="tr{{ item.id }}">
+                        <td>{{ item.product }}</td>
+                        <td class="col-xs-1 text-right">${{ item.product.currentPrice|number_format(2) }}</td>
+                        <td class="col-xs-1 text-center">{{ item.quantity }}</td>
+                        <td class="col-xs-1 total text-right">${{ item.total|number_format(2) }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    {% if order %}
+        <div class="col-md-3 col-md-offset-9">
+            <div class="panel panel-default">
+                <table id="totals" class="table">
+                    <tr>
+                        <td>Subtotal</td>
+                        <td>${{ order.itemsTotal|number_format(2) }}</td>
+                    </tr>
+                    {% for tax in order.taxesLog %}
+                    <tr>
+                        <td>{{ tax.translations.0.name }}</td>
+                        <td>${{ calculator.calculateTotalTax(order, tax.rate)|number_format(2) }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td><strong>${{ calculator.calculateOrderTotalWithTaxes(order, order.taxesLog)|number_format(2) }}</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<h3>Adresse</h3>
+{% for address in order.addresses %}
+    <strong>{{ address.types|join(', ') }}</strong>
+    <p>
+        <small class="text-muted">Name</small>
+        <br>
+        {{ address.firstName }} {{ address.lastName }}
+    </p>
+    <p>
+        <small class="text-muted">Address</small>
+        <br>
+        {{ address.address }}
+        <br>
+        {{ address.city }}
+        <br>
+        {{ address.province }}
+        <br>
+        {{ address.zip }}
+        <br>
+        {{ address.country }}
+    </p>
+    <p>
+        <small class="text-muted">Phone</small>
+        <br>
+        {{ address.phone }}
+    </p>
+    <hr>
+{% endfor %}
+{% endblock %}

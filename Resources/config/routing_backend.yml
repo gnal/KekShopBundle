@@ -1,0 +1,5 @@
+# Admin Order
+
+kek_shop_admin_order_show:
+    pattern: /admin/order/{id}
+    defaults: { _controller: KekShopBundle:AdminOrder:show, _admin: kek_shop_order_admin }
