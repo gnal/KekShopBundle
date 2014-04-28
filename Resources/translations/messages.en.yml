@@ -1,9 +1,10 @@
-address.types: Use this address for
+address.types: "Use this address for"
 Firstname: First name
 Lastname: Last name
 Zip: Postal code
-Discountedprice
-Discountedfrom
-Discountedto
+
+Discountedprice: Prix en rabais
+Discountedfrom: En rabais a partir du
+Discountedto: En rabais jusqu'au
 Price: Prix
 Taxable: Taxable
