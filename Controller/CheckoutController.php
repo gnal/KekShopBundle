@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Validator\Constraints;
 use Kek\ShopBundle\Form\Type\CheckoutAddressType;
+use Kek\ShopBundle\Event\FormEvent;
 
 class CheckoutController extends Controller
 {
@@ -26,7 +27,7 @@ class CheckoutController extends Controller
             'published' => true,
         ]);
 
-        $form = $this->createForm(new CheckoutAddressType($this->getRequest(), $this->getUser(), $addressTypes));
+        $form = $this->createForm(new CheckoutAddressType($this->get('translator'), $this->getRequest(), $this->getUser(), $addressTypes));
 
         if ($this->getRequest()->isMethod('POST')) {
             $form->bind($this->getRequest());
@@ -76,6 +77,9 @@ class CheckoutController extends Controller
                             ->setCountry($address->getCountry())
                         ;
                     }
+
+                    $event = new FormEvent($form, $this->getDoctrine()->getEntityManager());
+                    $this->container->get('event_dispatcher')->dispatch(FormEvent::CHECKOUT_ADDRESS_SUCCESS, $event);
 
                     $this->getDoctrine()->getEntityManager()->persist($orderAddress);
                 }

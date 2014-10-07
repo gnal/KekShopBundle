@@ -1,6 +1,6 @@
 {% extends 'KekShopBundle::layout.html.twig' %}
 
-{% block title %}Address Information{% endblock %}
+{% block title %}{{ 'address_information'|trans }}{% endblock %}
 
 {% block content %}
 <form novalidate method="POST" action="{{ path('kek_shop_checkout_address') }}">
@@ -10,8 +10,8 @@
         {{ form_errors(form) }}
 
         {% for address_type in address_types %}
-            <h3>{{ address_type|capitalize }} Address</h3>
-            <p>Select a {{ address_type }} address from your address book or enter a new address.</p>
+            <h3>{{ address_type|capitalize }} {{ 'address'|trans }}</h3>
+            <p>{{ 'select_an_address'|trans({'%address_type%': address_type}) }}</p>
             <div class="form-group">
                 {{ form_widget(form[address_type~'AddressChoice']) }}
             </div>

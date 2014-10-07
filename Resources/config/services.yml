@@ -14,7 +14,7 @@ services:
 
     # ProductCategory
     kek_shop_product_category_admin:
-        class: Kek\ShopBundle\Admin\ProductCategoryAdmin
+        class: %kek_shop.product_category_admin.class%
         arguments: [ @kek_shop.product_category_manager ]
         parent: msi_admin.admin
         tags:

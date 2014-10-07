@@ -9,15 +9,17 @@ use Symfony\Component\Validator\Constraints;
 
 class CheckoutAddressType extends AbstractType
 {
+    protected $translator;
     protected $request;
     protected $user;
     protected $addressTypes;
 
-    public function __construct($request, $user, $addressTypes)
+    public function __construct($translator, $request, $user, $addressTypes)
     {
         $this->request = $request;
         $this->user = $user;
         $this->addressTypes = $addressTypes;
+        $this->translator = $translator;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -40,27 +42,37 @@ class CheckoutAddressType extends AbstractType
             $builder
                 ->add($label.'FirstName', 'text', [
                     'constraints' => $constraints,
+                    'label' => 'FirstName',
                 ])
                 ->add($label.'LastName', 'text', [
                     'constraints' => $constraints,
+                    'label' => 'LastName',
                 ])
                 ->add($label.'Phone', 'text', [
                     'constraints' => $constraints,
+                    'label' => 'Phone',
                 ])
                 ->add($label.'Address', 'text', [
                     'constraints' => $constraints,
+                    'label' => 'Address',
                 ])
                 ->add($label.'City', 'text', [
                     'constraints' => $constraints,
+                    'label' => 'City',
                 ])
                 ->add($label.'Province', 'text', [
                     'constraints' => $constraints,
+                    'label' => 'Province',
+                    'data' => 'Québec',
                 ])
                 ->add($label.'Country', 'text', [
                     'constraints' => $constraints,
+                    'label' => 'Country',
+                    'data' => 'Canada',
                 ])
                 ->add($label.'Zip', 'text', [
                     'constraints' => $constraints,
+                    'label' => 'Zip',
                 ])
             ;
 
@@ -97,7 +109,7 @@ class CheckoutAddressType extends AbstractType
         $i = 0;
         foreach ($types as $type) {
             if ($i !== 0) {
-                $choices[$type->getId()] = 'Use '.ucfirst($type).' Address';
+                $choices[$type->getId()] = $this->translator->trans('use_address', ['%type%' => $type]);
             }
             $i++;
         }

@@ -31,6 +31,7 @@ class ProductAdmin extends Admin
     public function buildForm(FormBuilder $builder)
     {
         $builder
+            ->add('imageFile', 'file')
             ->add('published', 'checkbox')
             ->add('categories')
             ->add('price', 'money', [

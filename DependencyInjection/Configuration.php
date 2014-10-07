@@ -62,6 +62,10 @@ class Configuration implements ConfigurationInterface
                     ->cannotBeEmpty()
                     ->defaultValue('Kek\ShopBundle\Admin\ProductAdmin')
                 ->end()
+                ->scalarNode('product_category_admin_class')
+                    ->cannotBeEmpty()
+                    ->defaultValue('Kek\ShopBundle\Admin\ProductCategoryAdmin')
+                ->end()
             ->end()
         ;
 
