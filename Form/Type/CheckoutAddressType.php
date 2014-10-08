@@ -2,7 +2,6 @@
 
 namespace Kek\ShopBundle\Form\Type;
 
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints;
@@ -87,7 +86,7 @@ class CheckoutAddressType extends AbstractType
         return 'kek_shop_checkout_address';
     }
 
-    private function buildAddressChoiceField($builder, array $types)
+    protected function buildAddressChoiceField($builder, array $types)
     {
         $choices = [];
         // try to get user's addresses

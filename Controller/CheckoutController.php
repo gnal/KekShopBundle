@@ -27,7 +27,8 @@ class CheckoutController extends Controller
             'published' => true,
         ]);
 
-        $form = $this->createForm(new CheckoutAddressType($this->get('translator'), $this->getRequest(), $this->getUser(), $addressTypes));
+        $formTypeClass = $this->container->getParameter('kek_shop.checkout_address_form_type_class.class');
+        $form = $this->createForm(new $formTypeClass($this->get('translator'), $this->getRequest(), $this->getUser(), $addressTypes));
 
         if ($this->getRequest()->isMethod('POST')) {
             $form->bind($this->getRequest());
@@ -49,6 +50,12 @@ class CheckoutController extends Controller
 
                     // we check if address is from address book or not
                     if (!$addressId) {
+                        // in case we allow submission of empty address type fields, we must skip the address type
+                        // for example, if you disable validation on shipping, you cant save it
+                        if (!$data[$type.'LastName']) {
+                            continue;
+                        }
+
                         $orderAddress->getTypes()->add($type);
                         $orderAddress
                             ->setOrder($order)
@@ -78,11 +85,11 @@ class CheckoutController extends Controller
                         ;
                     }
 
-                    $event = new FormEvent($form, $this->getDoctrine()->getEntityManager());
-                    $this->container->get('event_dispatcher')->dispatch(FormEvent::CHECKOUT_ADDRESS_SUCCESS, $event);
-
                     $this->getDoctrine()->getEntityManager()->persist($orderAddress);
                 }
+
+                $event = new FormEvent($form, $this->getDoctrine()->getEntityManager());
+                $this->container->get('event_dispatcher')->dispatch(FormEvent::CHECKOUT_ADDRESS_SUCCESS, $event);
 
                 $this->getDoctrine()->getEntityManager()->flush();
 
