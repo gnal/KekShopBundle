@@ -17,6 +17,10 @@ class CheckoutController extends Controller
     {
         $order = $this->get('kek_shop.order_provider')->getCurrentOrder();
 
+        if (!$order) {
+            return $this->redirect($this->generateUrl('kek_shop_product_index'));
+        }
+
         // if the user already saved addresses for order, then skip this step
         // user has to be able to edit address tho
         // if ($order->getAddresses()->count()) {
