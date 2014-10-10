@@ -105,15 +105,15 @@ class CheckoutAddressType extends AbstractType
         // need a new address choice
         $choices[0] = 'New Address';
 
-        $i = 0;
-        foreach ($types as $type) {
-            if ($i !== 0) {
-                $choices[$type->getId()] = $this->translator->trans('use_address', ['%type%' => $type]);
-            }
-            $i++;
-        }
+        // $i = 0;
+        // foreach ($types as $type) {
+        //     if ($i !== 0) {
+        //         $choices[-1*$type->getId()] = $this->translator->trans('use_address', ['%type%' => $type]);
+        //     }
+        //     $i++;
+        // }
 
-        // set default data (in other word set the selected option)
+        // set default data
         $data = null;
         if ($this->user) {
             foreach ($types as $type) {
