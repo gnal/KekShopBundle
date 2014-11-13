@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Validator\Constraints;
 use Kek\ShopBundle\Form\Type\CheckoutAddressType;
 use Kek\ShopBundle\Event\FormEvent;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class CheckoutController extends Controller
 {
@@ -15,6 +16,10 @@ class CheckoutController extends Controller
      */
     public function addressAction()
     {
+        if (!$this->getUser()) {
+            throw new AccessDeniedException();
+        }
+
         $order = $this->get('kek_shop.order_provider')->getCurrentOrder();
 
         if (!$order) {
