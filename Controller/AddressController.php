@@ -93,7 +93,7 @@ class AddressController extends Controller
             'id' => $this->getRequest()->attributes->get('address'),
         ]);
 
-        if (!$object || !$this->getUser()->getAddresses()->contains($object)) {
+        if (!$this->getUser()->getAddresses()->contains($object)) {
             throw $this->createNotFoundException();
         }
 

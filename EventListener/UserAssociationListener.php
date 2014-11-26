@@ -50,6 +50,7 @@ class UserAssociationListener
             'targetEntity' => $this->addressClass,
             'mappedBy' => 'user',
             'cascade' => ['persist', 'remove'],
+            'orphanRemoval' => true,
         ]);
     }
 }

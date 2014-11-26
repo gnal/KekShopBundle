@@ -55,27 +55,27 @@ class CheckoutController extends Controller
                     $orderAddressClass = $this->container->getParameter('kek_shop.order_address.class');
                     $orderAddress = new $orderAddressClass;
 
-                    $addressId = $data[$type.'AddressChoice'];
+                    $addressId = $data[$type->getId().'AddressChoice'];
 
                     // we check if address is from address book or not
                     if (!$addressId) {
                         // in case we allow submission of empty address type fields, we must skip the address type
                         // for example, if you disable validation on shipping, you cant save it
-                        if (!$data[$type.'LastName']) {
+                        if (!$data[$type->getId().'LastName']) {
                             continue;
                         }
 
                         $orderAddress->getTypes()->add($type);
                         $orderAddress
                             ->setOrder($order)
-                            ->setFirstName($data[$type.'FirstName'])
-                            ->setLastName($data[$type.'LastName'])
-                            ->setPhone($data[$type.'Phone'])
-                            ->setAddress($data[$type.'Address'])
-                            ->setCity($data[$type.'City'])
-                            ->setProvince($data[$type.'Province'])
-                            ->setZip($data[$type.'Zip'])
-                            ->setCountry($data[$type.'Country'])
+                            ->setFirstName($data[$type->getId().'FirstName'])
+                            ->setLastName($data[$type->getId().'LastName'])
+                            ->setPhone($data[$type->getId().'Phone'])
+                            ->setAddress($data[$type->getId().'Address'])
+                            ->setCity($data[$type->getId().'City'])
+                            ->setProvince($data[$type->getId().'Province'])
+                            ->setZip($data[$type->getId().'Zip'])
+                            ->setCountry($data[$type->getId().'Country'])
                         ;
                     } else {
                         $address = $this->getDoctrine()->getRepository($this->container->getParameter('kek_shop.address.class'))->find($addressId);
@@ -117,6 +117,10 @@ class CheckoutController extends Controller
      */
     public function reviewAction()
     {
+        if (!$this->getUser()) {
+            throw new AccessDeniedException();
+        }
+
         $repository = $this->getDoctrine()->getRepository('KekShopBundle:Tax');
         $taxes = $repository->findBy([
             'published' => true,

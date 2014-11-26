@@ -34,49 +34,49 @@ class CheckoutAddressType extends AbstractType
 
         foreach ($this->addressTypes as $label) {
             $constraints = [];
-            if (intval($this->request->request->get('kek_shop_checkout_address')[$label.'AddressChoice']) === 0) {
+            if (intval($this->request->request->get('kek_shop_checkout_address')[$label->getId().'AddressChoice']) === 0) {
                 $constraints = [new Constraints\NotBlank];
             }
 
             $builder
-                ->add($label.'FirstName', 'text', [
+                ->add($label->getId().'FirstName', 'text', [
                     'constraints' => $constraints,
                     'label' => 'FirstName',
                 ])
-                ->add($label.'LastName', 'text', [
+                ->add($label->getId().'LastName', 'text', [
                     'constraints' => $constraints,
                     'label' => 'LastName',
                 ])
-                ->add($label.'Phone', 'text', [
+                ->add($label->getId().'Phone', 'text', [
                     'constraints' => $constraints,
                     'label' => 'Phone',
                 ])
-                ->add($label.'Address', 'text', [
+                ->add($label->getId().'Address', 'text', [
                     'constraints' => $constraints,
                     'label' => 'Address',
                 ])
-                ->add($label.'City', 'text', [
+                ->add($label->getId().'City', 'text', [
                     'constraints' => $constraints,
                     'label' => 'City',
                 ])
-                ->add($label.'Province', 'text', [
+                ->add($label->getId().'Province', 'text', [
                     'constraints' => $constraints,
                     'label' => 'Province',
                     'data' => 'Québec',
                 ])
-                ->add($label.'Country', 'text', [
+                ->add($label->getId().'Country', 'text', [
                     'constraints' => $constraints,
                     'label' => 'Country',
                     'data' => 'Canada',
                 ])
-                ->add($label.'Zip', 'text', [
+                ->add($label->getId().'Zip', 'text', [
                     'constraints' => $constraints,
                     'label' => 'Zip',
                 ])
             ;
 
             // if ($this->user) {
-            //     $builder->add('save'.ucfirst($label).'AddressToAddressBook', 'checkbox');
+            //     $builder->add('save'.ucfirst($label->getId()).'AddressToAddressBook', 'checkbox');
             // }
         }
     }
@@ -134,7 +134,7 @@ class CheckoutAddressType extends AbstractType
             $data = 0;
         }
 
-        $builder->add($types[0].'AddressChoice', 'choice', [
+        $builder->add($types[0]->getId().'AddressChoice', 'choice', [
             'choices' => $choices,
             'data' => $data,
             'attr' => [
