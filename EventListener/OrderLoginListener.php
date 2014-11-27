@@ -8,8 +8,9 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Http\SecurityEvents;
-
+use FOS\UserBundle\FOSUserEvents;
 use Doctrine\Common\Persistence\ObjectManager;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
 
 /**
  * @DI\Service
@@ -43,6 +44,19 @@ class OrderLoginListener
 
     public function onKernelResponse(FilterResponseEvent $event)
     {
+        $this->giveOrderToUser($event, $this->user);
+    }
+
+    /**
+     * @DI\Observe(FOSUserEvents::REGISTRATION_COMPLETED)
+     */
+    public function onRegistrationCompleted(FilterUserResponseEvent $event)
+    {
+        $this->giveOrderToUser($event, $event->getUser());
+    }
+
+    private function giveOrderToUser($event, $user)
+    {
         $request = $event->getRequest();
         $repository = $this->om->getRepository($this->class);
 
@@ -51,12 +65,12 @@ class OrderLoginListener
             $order = $repository->findCurrentById($request->cookies->get('msci'));
             if ($order) {
                 // if the user already had a order but made a new one while not logged, we delete his old one
-                $old = $repository->findCurrentByUser($this->user);
+                $old = $repository->findCurrentByUser($user);
                 if ($old) {
                     $this->om->remove($old);
                 }
 
-                $order->setUser($this->user);
+                $order->setUser($user);
 
                 $this->om->persist($order);
                 $this->om->flush();
